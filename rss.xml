@@ -3,6 +3,35 @@
   <channel>
     <title>&#x6765;&#x4E00;&#x7897;&#x70ED;&#x6C64;</title>
     <link>http://sample.com</link>
-    <pubDate>2013-02-20 13:33:44 +0800</pubDate>
+    <pubDate>2013-02-20 14:07:38 +0800</pubDate>
+    <item>
+      <title>shell parameters</title>
+      <link>http://sample.com/shell-parameters</link>
+      <pubDate>2013-02-20</pubDate>
+      <description>&lt;p&gt;&#x867D;&#x7136;shell&#x5F88;&#x5F3A;&#x5927;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4E00;&#x76F4;&#x90FD;&#x6CA1;&#x6709;&#x8BA4;&#x771F;&#x5B66;&#x8FC7;&#x548C;&#x5199;&#x8FC7;&#xFF0C;&#x6700;&#x8FD1;&#x5728;&#x6298;&#x817E;&#x4E0B;&#x5C0F;&#x4E1C;&#x897F;&#xFF0C;&#x9700;&#x8981;&#x5199;&#x70B9;shell&#x6765;&#x628A;&#x81EA;&#x5DF1;&#x4ECE;repeat&#x4E2D;&#x91CA;&#x653E;&#x51FA;&#x6765;&#xFF0C;&#x9996;&#x5148;&#x78B0;&#x5230;&#x95EE;&#x9898;&#x5C31;&#x662F;shell&#x5982;&#x4F55;&#x63A5;&#x53D7;&#x53C2;&#x6570;&#xFF0C;&#x53EA;&#x6709;&#x8FD9;&#x6837;&#x624D;&#x80FD;&#x8FDB;&#x884C;&#x591A;&#x6837;&#x6027;&#x7684;input&#x548C;output&#x3002;&lt;/p&gt;
+
+&lt;p&gt;&#x8FD9;&#x91CC;&#x8BB0;&#x4E0B;&#x4EE5;&#x4F5C;&#x5907;&#x5FD8;&#xFF1A;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$#&lt;/code&gt;&#xFF1A;&#x8FD9;&#x91CC;&#x7684;&lt;code&gt;#&lt;/code&gt;&#x4EE3;&#x8868;number&#xFF0C;&#x81EA;&#x7136;&#x6570;&#x8868;&#x793A;&#x7B2C;&#x51E0;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x7B2C;0&#x4E2A;&#x6307;&#x53C2;&#x6570;&#x524D;&#x7684;&#x547D;&#x4EE4;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$*&lt;/code&gt;&#xFF1A;&#x4EE3;&#x8868;&#x6240;&#x6709;&#x53C2;&#x6570;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#xFF1A;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+#test.sh
+echo all params: $*
+echo first param: $1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&#x8FD0;&#x884C;&#xFF1A;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;./test.sh p1 p2 p3
+all params: p1 p2 p3
+first param: p1
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
   </channel>
 </rss>

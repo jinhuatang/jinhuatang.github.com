@@ -12,9 +12,9 @@
     <![endif]-->
 
     <!-- Le styles -->
-    <link href="/assets/twitter/stylesheets/bootstrap.min.css?0.9009585254420635" type="text/css" rel="stylesheet" media="all">
-<link href="/assets/twitter/stylesheets/style.css?0.8149622216274917" type="text/css" rel="stylesheet" media="all">
-<link href="/assets/twitter/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.9060789390432301" type="text/css" rel="stylesheet" media="all">
+    <link href="/assets/twitter/stylesheets/bootstrap.min.css?0.3790094284990385" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/stylesheets/style.css?0.8347799823902703" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.84787145040065" type="text/css" rel="stylesheet" media="all">
 
     
 
@@ -63,9 +63,42 @@
 
 <div class="row-fluid">
   <div class="span12">
-    
+    <div class="post">
+  <h3 class="title"><a href="/shell-parameters">shell parameters</a> <span class="date">2013-02-20</span></h3>
+
+  <p>虽然shell很强大，但是我一直都没有认真学过和写过，最近在折腾下小东西，需要写点shell来把自己从repeat中释放出来，首先碰到问题就是shell如何接受参数，只有这样才能进行多样性的input和output。</p>
+
+<p>这里记下以作备忘：</p>
+
+<ul>
+<li><code>$#</code>：这里的<code>#</code>代表number，自然数表示第几个参数，第0个指参数前的命令</li>
+<li><code>$*</code>：代表所有参数</li>
+</ul>
+
+<p>示例代码：</p>
+
+<pre><code>#!/bin/bash
+#test.sh
+echo all params: $*
+echo first param: $1
+</code></pre>
+
+<p>运行：</p>
+
+<pre><code>./test.sh p1 p2 p3
+all params: p1 p2 p3
+first param: p1
+</code></pre>
+
+
+  <div class="more">
+    <a href="/shell-parameters" class="btn btn-small">read more..</a>
+  </div>
+</div>
+
 <div class="pagination">
   <ul>
+      <li class="active"><a href="/">1</a></li>
   </ul>
 </div>
 

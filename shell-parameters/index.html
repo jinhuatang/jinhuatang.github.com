@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Tags</title>
+    <title>shell parameters</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Jevi Tang">
 
@@ -12,9 +12,9 @@
     <![endif]-->
 
     <!-- Le styles -->
-    <link href="/assets/twitter/stylesheets/bootstrap.min.css?0.7914153844568812" type="text/css" rel="stylesheet" media="all">
-<link href="/assets/twitter/stylesheets/style.css?0.43613861221564665" type="text/css" rel="stylesheet" media="all">
-<link href="/assets/twitter/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.49462418352093496" type="text/css" rel="stylesheet" media="all">
+    <link href="/assets/twitter/stylesheets/bootstrap.min.css?0.536816506295856" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/stylesheets/style.css?0.6260581039332842" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.4701962870925974" type="text/css" rel="stylesheet" media="all">
 
     
 
@@ -37,8 +37,8 @@
               
                 <li><a href="/archive">Archive</a></li>
               
-                <li class="active"><a href="/tags" class="active">Tags</a></li>
               
+                <li><a href="/tags">Tags</a></li>
               
               
                 <li><a href="/categories">Categories</a></li>
@@ -58,18 +58,74 @@
 
       <div class="content">
         <div class="page-header">
-  <h1>Tags </h1>
+  <h1>shell parameters </h1>
 </div>
 
-<div class="row-fluid">
+<div class="row-fluid post-full">
   <div class="span12">
-    <ul class="tag_box inline">
+    <div class="date">
+      <span>2013-02-20</strong>
+    </div>
+    <div class="content">
+      <p>虽然shell很强大，但是我一直都没有认真学过和写过，最近在折腾下小东西，需要写点shell来把自己从repeat中释放出来，首先碰到问题就是shell如何接受参数，只有这样才能进行多样性的input和output。</p>
+
+<p>这里记下以作备忘：</p>
+
+<ul>
+<li><code>$#</code>：这里的<code>#</code>代表number，自然数表示第几个参数，第0个指参数前的命令</li>
+<li><code>$*</code>：代表所有参数</li>
 </ul>
 
- 
+<p>示例代码：</p>
+
+<pre><code>#!/bin/bash
+#test.sh
+echo all params: $*
+echo first param: $1
+</code></pre>
+
+<p>运行：</p>
+
+<pre><code>./test.sh p1 p2 p3
+all params: p1 p2 p3
+first param: p1
+</code></pre>
+
+    </div>
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+    </ul>
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+    </ul>
+    <hr>
+    <div class="pagination">
+      <ul>
+          <li class="prev disabled"><a>&larr; Previous</a></li>
+
+          <li><a href="/archive">Archive</a></li>
+
+          <li class="next disabled"><a>Next &rarr;</a>
+      </ul>
+    </div>
+    <hr>
+    <div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
 
   </div>
 </div>
+
 
       </div>
 
