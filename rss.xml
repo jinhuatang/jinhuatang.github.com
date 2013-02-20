@@ -1,14 +1,8 @@
 <?xml version="1.0"?>
 <rss version="2.0">
   <channel>
-    <title>Blog Title</title>
+    <title>&#x6765;&#x4E00;&#x7897;&#x70ED;&#x6C64;</title>
     <link>http://sample.com</link>
-    <pubDate>2013-02-20 11:52:04 +0800</pubDate>
-    <item>
-      <title>Untitled Post</title>
-      <link>http://sample.com/untitled-post</link>
-      <pubDate>2013-02-20</pubDate>
-      <description></description>
-    </item>
+    <pubDate>2013-02-20 13:33:44 +0800</pubDate>
   </channel>
 </rss>
