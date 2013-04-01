@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title></title>
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+        <link href="../css/post.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="post">
+        <h1>shell学习 2012-2-20</h1>
+<h2>参数</h2>
+<p>学习shell过程中，首先碰到问题就是shell如何接受参数，因为只有这样才能进行多样性的input和out
+put。</p>
+<p>这里记下以作备忘：</p>
+<ul>
+<li><code>$#</code>：这里的<code>#</code>代表number，自然数表示第几个参数，第0个指参数前的命令</li>
+<li><code>$*</code>：代表所有参数</li>
+</ul>
+<p>示例代码：</p>
+<pre><code class="lang-shell"><span class="shebang">#!/bin/bash</span>
+<span class="comment">#test.sh</span>
+<span class="keyword">echo</span> all params: $*
+<span class="keyword">echo</span> first param: <span class="variable">$1</span></code></pre>
+<p>运行：</p>
+<pre><code class="lang-shell">./test.sh p1 p2 p3  
+<span class="title">all</span> params: p1 p2 p3  
+<span class="title">first</span> param: p1</code></pre>
+
+        </div>
+        <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    </body>
+</html>
