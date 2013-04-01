@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title></title>
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+        <link href="../css/post.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="post">
+        <h1>文件API 2013-4-1</h1>
+<h2>摘要</h2>
+<p>此文档描述的是Web应用程序的文件对象API，包括：</p>
+<ul>
+<li>FileList</li>
+<li>Blob</li>
+<li>File</li>
+<li>FileReader</li>
+<li>URI scheme</li>
+</ul>
+<h2>FileList</h2>
+<h3>IDL</h3>
+<pre><code class="lang-javascript">interface FileList {
+      getter File? item(unsigned long index);
+      readonly attribute unsigned long length;
+};</code></pre>
+<h3>DEMO</h3>
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">form</span> <span class="attribute">id</span>=<span class="value">"formId"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"file"</span> <span class="attribute">id</span>=<span class="value">"fileId"</span>/&gt;</span>
+<span class="tag">&lt;/<span class="title">form</span>&gt;</span></code></pre>
+<pre><code class="lang-javascript"><span class="keyword">var</span> file = document.forms[<span class="string">'formId'</span>][<span class="string">'fileId'</span>].files.item(<span class="number">0</span>);
+<span class="comment">//var file = document.forms['formId']['fileId'].files[0];</span>
+<span class="keyword">if</span>(file)
+{
+    <span class="comment">//</span>
+}</code></pre>
+<h2>Blob</h2>
+<h3>IDL</h3>
+<pre><code class="lang-javascript">[Constructor, 
+     Constructor(sequence&lt;(ArrayBuffer or ArrayBufferView or Blob or DOMString)&gt; blobParts, optional BlobPropertyBag options)] 
+    interface Blob {
+
+      readonly attribute unsigned long long size;
+      readonly attribute DOMString type;
+
+      <span class="comment">//slice Blob into byte-ranged chunks</span>
+
+      Blob slice(optional long long start,
+                 optional long long end,
+                 optional DOMString contentType);
+      <span class="keyword">void</span> close(); 
+
+    };
+
+    dictionary BlobPropertyBag {
+      DOMString type = <span class="string">""</span>;
+    };</code></pre>
+<h3>DEMO</h3>
+<pre><code class="lang-javascript"><span class="comment">// Create a new Blob object</span>
+<span class="keyword">var</span> a = <span class="keyword">new</span> Blob();
+
+<span class="comment">// Create a 1024-byte ArrayBuffer</span>
+<span class="comment">// buffer could also come from reading a File</span>
+<span class="keyword">var</span> buffer = <span class="keyword">new</span> ArrayBuffer(<span class="number">1024</span>);
+
+<span class="comment">// Create ArrayBufferView objects based on buffer</span>
+<span class="keyword">var</span> shorts = <span class="keyword">new</span> Uint16Array(buffer, <span class="number">512</span>, <span class="number">128</span>);
+<span class="keyword">var</span> bytes = <span class="keyword">new</span> Uint8Array(buffer, shorts.byteOffset + shorts.byteLength);
+
+<span class="keyword">var</span> b = <span class="keyword">new</span> Blob([toNativeLineEndings(<span class="string">"foobarbazetcetc"</span> + <span class="string">"birdiebirdieboo"</span>)], {type: <span class="string">"text/plain;charset=UTF-8"</span>});
+
+<span class="keyword">var</span> c = <span class="keyword">new</span> Blob([b, shorts]);
+
+<span class="keyword">var</span> a = <span class="keyword">new</span> Blob([b, c, bytes]);
+
+<span class="keyword">var</span> d = <span class="keyword">new</span> Blob([buffer, b, c, bytes]);</code></pre>
+<h2>File</h2>
+<h3>IDL</h3>
+<pre><code class="lang-javascript">interface File : Blob {
+  readonly attribute DOMString name;
+  readonly attribute Date lastModifiedDate;
+};</code></pre>
+<h2>FileReader</h2>
+<h3>IDL</h3>
+<pre><code class="lang-javascript">[Constructor]
+interface FileReader: EventTarget {
+
+    <span class="comment">// async read methods</span>
+    <span class="keyword">void</span> readAsArrayBuffer(Blob blob);
+    <span class="keyword">void</span> readAsText(Blob blob, optional DOMString encoding);
+    <span class="keyword">void</span> readAsDataURL(Blob blob);
+
+    <span class="keyword">void</span> abort();
+
+    <span class="comment">// states</span>
+    <span class="keyword">const</span> unsigned short EMPTY = <span class="number">0</span>;
+    <span class="keyword">const</span> unsigned short LOADING = <span class="number">1</span>;
+    <span class="keyword">const</span> unsigned short DONE = <span class="number">2</span>;
+
+
+    readonly attribute unsigned short readyState;
+
+    <span class="comment">// File or Blob data</span>
+    readonly attribute (DOMString or ArrayBuffer)? result;
+
+    readonly attribute DOMError error;
+
+    <span class="comment">// event handler attributes</span>
+    [TreatNonCallableAsNull] attribute Function? onloadstart;
+    [TreatNonCallableAsNull] attribute Function? onprogress;
+    [TreatNonCallableAsNull] attribute Function? onload;
+    [TreatNonCallableAsNull] attribute Function? onabort;
+    [TreatNonCallableAsNull] attribute Function? onerror;
+    [TreatNonCallableAsNull] attribute Function? onloadend;
+};</code></pre>
+
+        </div>
+        <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    </body>
+</html>
