@@ -4,8 +4,8 @@
     grunt.initConfig({
         markdown: {
             posts: {
-                files: ['_posts/*'],
-                dest: 'posts',
+                files: ['_post/*'],
+                dest: 'post',
                 template: '_layout/post.html',
                 options: {
                     gfm: true,
@@ -15,7 +15,7 @@
         },
         watch: {
           scripts: {
-            files: '_posts/*',
+            files: '_post/*',
             tasks: ['markdown'],
             options: {
               interrupt: true
