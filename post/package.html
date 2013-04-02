@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title></title>
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+        <link href="../css/post.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="post">
+        <h1>nodejs的package.json 2013-4-2</h1>
+<h2>详细描述</h2>
+<pre><code class="lang-javascript">{
+    name: <span class="string">"package-name"</span>, <span class="comment">// 包名称，必须为url安全的字符，不能以.和_开始</span>
+    version: <span class="string">"1.0.0-1-beta"</span>, <span class="comment">// 前三个数字为主版本，连字符后的数字为编译版本，如果包含非数字，则认为是预发布版本，版本关系`0.1.2-7 &gt; 0.1.2-7-beta &gt; 0.1.2-6 &gt; 0.1.2 &gt; 0.1.2beta`</span>
+    description: <span class="string">""</span>, <span class="comment">// 包描述</span>
+    keywords: [], <span class="comment">// 包关键字，是一个字符串数组</span>
+    homepage: <span class="string">""</span>, <span class="comment">// 项目地址</span>
+    bugs: <span class="comment">// bug地址</span>
+        {
+            <span class="string">"url"</span> : <span class="string">""</span>, <span class="comment">// 地址 </span>
+            <span class="string">"email"</span> : <span class="string">""</span> <span class="comment">// 邮箱</span>
+        },
+    license: <span class="string">"BSD"</span>, <span class="comment">// 许可</span>
+    author: <span class="comment">// 作者 </span>
+        {
+            name: <span class="string">""</span>, <span class="comment">// 姓名</span>
+            email: <span class="string">""</span>, <span class="comment">// 邮箱</span>
+            url: <span class="string">""</span> <span class="comment">// 地址</span>
+        },
+    contributors: <span class="comment">// 贡献者们</span>
+        [
+            {
+                name: <span class="string">""</span>, <span class="comment">// 姓名</span>
+                email: <span class="string">""</span>, <span class="comment">// 邮箱</span>
+                url: <span class="string">""</span> <span class="comment">// 地址</span>
+            }
+        ],
+    files: [], <span class="comment">// 项目包括的文件/文件夹，可以用.npmignore文件来标明不包括的文件</span>
+    main: <span class="string">""</span>, <span class="comment">// 模块的id，标明程序的入口</span>
+    bin: <span class="comment">// 安装可执行文件，并且将路径放入PATH环境变量中 </span>
+        {
+            <span class="string">"bin-name"</span>:<span class="string">"bin-path"</span> <span class="comment">// 可执行命令与文件映射键值对</span>
+        },
+    man: <span class="string">""</span>, <span class="comment">// 建立包的man命令与帮助文档关系，可以是单个字符串，也可以是数组</span>
+    directories: <span class="string">""</span>, <span class="comment">// *未知*</span>
+    repository: <span class="comment">// 代码托管</span>
+        {
+            type: <span class="string">"git"</span>, <span class="comment">// 托管类型</span>
+            url: <span class="string">""</span> <span class="comment">// 托管地址</span>
+        }, 
+    scripts: {}, <span class="comment">// *未知*</span>
+    config: {}, <span class="comment">// 环境变量配置，`npm_package_config_xxx`即可拿到此变量，也可以用`npm config set [package]:xxx yyy`覆盖</span>
+    dependencies: <span class="comment">// 包依赖，开发的相关依赖放`devDependencies`中</span>
+        {
+            <span class="string">"package-name"</span>: <span class="string">"package-version|package-url"</span> <span class="comment">// 包名称与版本或地址键值对</span>
+        },
+    devDependencies: {},
+    bundledDependencies: [], <span class="comment">// 依赖包名称集合</span>
+    optionalDependencies: [], <span class="comment">// 可选依赖包，当依赖安装失败的时候，会安装这里的</span>
+    engines: <span class="comment">// 执行引擎</span>
+        {
+            <span class="string">"engine-name"</span>: <span class="string">"engine-version"</span> <span class="comment">// 引擎名称与版本</span>
+        },
+    engineStrict: <span class="literal">false</span>, <span class="comment">// 严格引擎声明</span>
+    os: [], <span class="comment">// 支持的操作系统，可以是白名单也可以是黑名单，黑名单前加`!`符号</span>
+    cpu: [], <span class="comment">// 支持的CPU，可以是白名单也可以是黑名单，黑名单前加`!`符号</span>
+    preferGlobal: <span class="literal">true</span>, <span class="comment">// 是否优先全局安装</span>
+    private: <span class="literal">true</span>, <span class="comment">// 标明是否是私有包，如果是，则不发布</span>
+    publishConfig: {} <span class="comment">// 发布配置</span>
+}</code></pre>
+<h2>最小模板</h2>
+<pre><code class="lang-javascript">{
+    name: <span class="string">"package-name"</span>,
+    version: <span class="string">"1.0.0"</span>,
+    description: <span class="string">""</span>,
+    keywords: [],
+    homepage: <span class="string">""</span>,
+    author:
+        {
+            name: <span class="string">""</span>,
+            email: <span class="string">""</span>
+        },
+    dependencies:
+        {
+            <span class="string">"package-name"</span>: <span class="string">"package-version|package-url"</span>
+        },
+    devDependencies: 
+        {
+            <span class="string">"package-name"</span>: <span class="string">"package-version|package-url"</span>
+        }
+}</code></pre>
+
+        </div>
+        <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    </body>
+</html>
