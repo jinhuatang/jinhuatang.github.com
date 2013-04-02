@@ -3,4 +3,4 @@
 
 简单介绍
 ----------------
-Grunt[http://gruntjs.com/]是一个node.js下的自动化工具，依赖灵活的js，npm包管理，使得Grunt提供了丰富的功能，我们在项目中也果断放弃已用的Ant。
+[Grunt](http://gruntjs.com/)是一个node.js下的自动化工具，依赖灵活的js，npm包管理，使得Grunt提供了丰富的功能，我们在项目中也果断放弃已用的Ant。
