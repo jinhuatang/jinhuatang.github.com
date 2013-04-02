@@ -11,7 +11,6 @@ code .template_comment,
 code .diff .header,
 code .javadoc {
     color: #998;
-    font-style: italic;
 }
 
 code .keyword,
