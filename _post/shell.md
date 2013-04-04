@@ -24,3 +24,9 @@ echo first param: $1
 all params: p1 p2 p3  
 first param: p1
 ```
+sed递归文件替换内容
+-----------------------
+一般情况下使用这个命令即可`find . -type f | xargs sed -i 's/old/new/g'`  
+但是当文件名有空格，则会出现异常，因为空格相当于分成多个参数了  
+解决办法为`find . -type f -print0 | xargs -0 sed -i 's/old/new/g'`  
+`-print0`将在字符串尾部加`\0`即`null`，`xargs`的`-0`表示用`\0`分隔符来解析参数，这样配合使用问题解决

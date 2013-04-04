@@ -28,6 +28,8 @@ put。</p>
 <pre><code class="lang-shell">./test.sh p1 p2 p3  
 <span class="title">all</span> params: p1 p2 p3  
 <span class="title">first</span> param: p1</code></pre>
+<h2>sed递归文件替换内容</h2>
+<p>一般情况下使用这个命令即可<code>find . -type f | xargs sed -i &#39;s/old/new/g&#39;</code><br>但是当文件名有空格，则会出现异常，因为空格相当于分成多个参数了<br>解决办法为<code>find . -type f -print0 | xargs -0 sed -i &#39;s/old/new/g&#39;</code><br><code>-print0</code>将在字符串尾部加<code>\0</code>即<code>null</code>，<code>xargs</code>的<code>-0</code>表示用<code>\0</code>分隔符来解析参数，这样配合使用问题解决</p>
 
         </div>
         <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
