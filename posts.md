@@ -6,5 +6,5 @@
 * [字符编码 2013-3-20](post/code.html)
 * [常用网址 2013-3-10](post/links.html)
 * [node.js 2012-4-4](post/node.html)
-* [npm���÷��� 2012-4-1](post/npm.html)
+* [npm常用方法 2012-4-1](post/npm.html)
 * [shell学习 2012-2-20](post/shell.html)

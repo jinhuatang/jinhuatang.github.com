@@ -1,5 +1,6 @@
 ﻿常用网址 2013-3-10
 ================
+<style>img{width:16px;height:16px;}</style>
 前端
 ---------------
 [![Kuler](http://kuler.adobe.com/favicon.ico)Kuler](http://kuler.adobe.com)  
