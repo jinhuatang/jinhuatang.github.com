@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+        <link href="../css/post.css" rel="stylesheet" />
+    </head>
+    <body>
+        <a href="../posts.html">&lt;&lt;返回</a>
+        <div class="post">
+        <h1>jqueryui 2012-3-15</h1>
+<h2>Widget Factory（翻译）</h2>
+<h3>描述</h3>
+<p>为所有jQuery UI widget提供一致的抽象来创建有状态的jQuery插件.<br><code>jQuery.widget( name [, base ], prototype )</code>  </p>
+<h4>name</h4>
+<p>类型: <code>String</code><br>创建此名称的widget,包括其命名空间.</p>
+<h4>base</h4>
+<p>类型: <code>Function()</code><br>继承的widget基类. 这必须是个构造函数并且可以用new来实例化. 默认值为 jQuery.Widget.</p>
+<h4>prototype</h4>
+<p>类型: <code>PlainObject</code><br>这个对象将作为此widget的prototype.</p>
+<p>你可以继承$.Widget对象来从零创建一个新widget,或者直接继承已有的jQuery UI或者第三方widget.可以定于与继承的widget相同的名称,或者用扩展来替代.</p>
+<p>jQuery UI包含了很多widget来维护状态,因此将于典型的jQuery插件使用模式有明显差异.所有jQuery UI的widget使用相同的模式, 用widget factory来定义. 因此你只要学会使用一个widget,那么就能知道使用所有的widget.</p>
+<p><em>注: 这个文档示例使用progressbar widget 不过这个语法和其他每个widget都一样.</em></p>
+<h3>初始化</h3>
+<p>为了跟踪widget的状态,我们必须介绍下widget的整个生命周期.当widget初始化后,生命周期即开始.初始化一个widget,我们可以简单的在一个或多个元素上调用插件.</p>
+<p><code>$( &quot;#elem&quot; ).progressbar();</code><br>这将初始化jQuery对象里的每个元素,我们用id为&#39;elem&#39;的元素来举例.因为我们调用了progressbar方法没有传任何参数,这个widget将使用默认选项进行初始化.在初始化的时候,我们可以传一个选项集合来覆盖默认的选项.</p>
+<p><code>$( &quot;#elem&quot; ).progressbar({ value: 20 });</code><br>初始化时我们可以根据需要传任意个选项.任何没有传的选项都将使用默认值.</p>
+<p>选项是widget状态的一部分,因此我们可以在初始化后继续设置选项.我们将在后面的option方法中看到.</p>
+<h3>方法</h3>
+<p>现在widget已经初始化了,我们可以查询它的状态或者执行操作.所有的操作在初始化后都采用一种方式调用.我们只需要传方法的名称给相应的jQuery插件就可以调用其方法.例如,调用一个progressbar这个widget的value()方法,我们可以这样做:</p>
+<p><code>$( &quot;#elem&quot; ).progressbar( &quot;value&quot; );</code></p>
+<p>如果方法需要接受参数,我们可以在方法名后传递.例如,给方法value()传个参数40,我们可以这样做:</p>
+<p><code>$( &quot;#elem&quot; ).progressbar( &quot;value&quot;, 40 );</code></p>
+<p>就像其他jQuery方法一样,大多数widget方法为了链式调用返回的是一个jQuery对象.</p>
+<pre><code class="lang-javascript">$( <span class="string">"#elem"</span> )
+  .progressbar( <span class="string">"value"</span>, <span class="number">90</span> )
+  .addClass( <span class="string">"almost-done"</span> );</code></pre>
+<p>每个widget基于自身的功能需要将提供一套方法.但是,这里也有一些方法所有的widget都会有,下面将有详细的描述.</p>
+<h3>事件</h3>
+<p>所有的widget都有与事件相关的一系列行为来通知状态的变化.对于大多数widget而言,事件名称前加widget名称前缀的将被触发.例如,我们可以绑定progressbar的change事件,这样任何时候值发生改变都会被触发.</p>
+<pre><code class="lang-javascript">$( <span class="string">"#elem"</span> ).bind( <span class="string">"progressbarchange"</span>, <span class="keyword">function</span>() {
+  alert( <span class="string">"The value has changed!"</span> );
+});</code></pre>
+<p>每个事件都有一个对应的回调函数作为选项暴露.我们可以不需要绑定progressbarchange事件来截获progressbar的change回调.</p>
+<pre><code class="lang-javascript">$( <span class="string">"#elem"</span> ).progressbar({
+  change: <span class="keyword">function</span>() {
+    alert( <span class="string">"The value has changed!"</span> );
+  }
+});</code></pre>
+<p>所有的widget实例化后都会触发create事件.</p>
+<h3>实例</h3>
+<p>widget的实例都是以widget全名作为key用jQuery.data()存储.因此,你可以使用下面的方法从元素获取progressbar这个widget实例.</p>
+<p><code>$( &quot;#elem&quot; ).data( &quot;ui-progressbar&quot; );</code></p>
+<p>判断一个元素是否与一个已有的widget绑定可以使用:data选择器.</p>
+<pre><code class="lang-javascript">$( <span class="string">"#elem"</span> ).is( <span class="string">":data( 'ui-progressbar' )"</span> ); <span class="comment">// true</span>
+$( <span class="string">"#elem"</span> ).is( <span class="string">":data( 'ui-draggable' )"</span> ); <span class="comment">//false</span></code></pre>
+<p>你也可以用:data来获取所有实例化了某个widget的元素.</p>
+<p><code>$( &quot;:data( &#39;ui-progressbar&#39; )&quot; );</code></p>
+<h3>属性</h3>
+<p>所有的widget都有如下属性集合:</p>
+<blockquote>
+<ul>
+<li>document: document是widget内置的. 如果与iframe交互将很有用.</li>
+<li>element: 一个jQuery对象,包含了用来实例化widget的元素.如果你选择多个元素并且调用.myWidget(),将会为每个元素创建单独的widget实例.因此这个属性通常只包含一个元素.</li>
+<li>namespace: widget原型存储在jQuery全局对象上的位置.例如一个ui的namespace表面这个widget的原型存放在$.ui上.</li>
+<li>options: 包含被当前widget所使用选项的对象.在实例化是,任何用户提供的选项将自动与$.myNamespace.myWidget.prototype.options上的默认值合并.用户提供的选项覆盖默认值.</li>
+<li>uuid: 这个widget的唯一整型标识.</li>
+<li>version: widget的字符串版本.对于jQueryUI这个将设置为jQueryUI的widget使用.widget开发者必须显示的在自己的原型上标明.</li>
+<li>widgetEventPrefix: 这个前缀加在事件名称前面将被widget触发. 例如  draggable 的 widgetEventPrefix 是&quot;drag&quot;, 因此当 draggable 被创建后, &quot;dragcreate&quot;这个名字的事件将被触发. 默认 widgetEventPrefix 就是widget自身的名字. 注: 这个属性已过期,将在后期版本中删除.事件名字将被换成widgetName:eventName 如: &quot;draggable:create&quot;.</li>
+<li>widgetFullName: widget的完整名称,包括命名空间在内.例如,$.widget( &quot;myNamespace.myWidget&quot;, {} ), widgetFullName 为 &quot;myNamespace-myWidget&quot;.</li>
+<li>widgetName: widget名称. 例如, $.widget( &quot;myNamespace.myWidget&quot;, {} ), widgetName 为 &quot;myWidget&quot;.</li>
+<li>window: window是widget元素内置的. 如果与iframe交互将很有用.</li>
+</ul>
+</blockquote>
+<h3>Widget基类</h3>
+<p>描述: widget 工厂使用的Widget基类.</p>
+<p>快速导航</p>
+<h4>选项</h4>
+<ul>
+<li>disabled</li>
+<li>hide</li>
+<li>show<h4>方法</h4>
+</li>
+<li>_create</li>
+<li>_delay</li>
+<li>_destroy</li>
+<li>_focusable</li>
+<li>_getCreateEventData</li>
+<li>_getCreateOptions</li>
+<li>_hide</li>
+<li>_hoverable</li>
+<li>_init</li>
+<li>_off</li>
+<li>_on</li>
+<li>_setOption</li>
+<li>_setOptions</li>
+<li>_show</li>
+<li>_super</li>
+<li>_superApply</li>
+<li>_trigger</li>
+<li>destroy</li>
+<li>disable</li>
+<li>enable</li>
+<li>option</li>
+<li>widget<h4>事件</h4>
+</li>
+<li>create</li>
+</ul>
+<h4>选项</h4>
+<h5>disabled</h5>
+<p>类型: Boolean<br>默认值: false<br>设置 true 使widget不可用.<br>代码示例:<br>用disabled初始化widget实例:</p>
+<p><code>$( &quot;.selector&quot; ).widget({ disabled: true });</code></p>
+<p>初始化后获取或设置disabled选项:</p>
+<pre><code class="lang-javascript"><span class="comment">// getter</span>
+<span class="keyword">var</span> disabled = $( <span class="string">".selector"</span> ).widget( <span class="string">"option"</span>, <span class="string">"disabled"</span> );
+<span class="comment">// setter</span>
+$( <span class="string">".selector"</span> ).widget( <span class="string">"option"</span>, <span class="string">"disabled"</span>, <span class="literal">true</span> );</code></pre>
+<h5>hide</h5>
+<p>类型: Boolean or Number or String or Object<br>默认值: null<br>是否或者如何动态隐藏元素.</p>
+<p>多类型支持:</p>
+<blockquote>
+<ul>
+<li>Boolean: 当设置成 false, 没有动态效果,元素立即隐藏.     当设置为true, 元素将在默认的时间与缓动效果中隐藏 .</li>
+<li>Number:元素将在定义的时间与默认的缓动效果中隐藏.</li>
+<li>String: 元素将使用特定的效果隐藏.值可以是任何内置的jQuery动画方法名,如&quot;slideUp&quot;, 或者是jQuery UI效果,如&quot;fold&quot;.     两者都是用默认的时间和默认的缓动效果.</li>
+<li>Object: 如果是一个对象, 那么 effect, delay, duration, 和 easing 属性都可以设置. 如果 effect 属性包含一个jQuery方法名, 那么这个方法将被使用; 否则就假设是个jQuery UI效果. 当使用jQuery UI效果并支持额外的设置, 你可以把这些设置包含在一个对象中传给这个效果. 如 duration 或 easing 被忽略, 那么将使用默认的. 如果 effect 被忽略, 那么将使用 &quot;fadeOut&quot;. 如果 delay 被忽略, 将不会延迟.</li>
+</ul>
+</blockquote>
+<p>代码示例:<br>用hide初始化widget:</p>
+<p><code>$( &quot;.selector&quot; ).widget({ hide: { effect: &quot;explode&quot;, duration: 1000 } });</code></p>
+<p>初始化后,获取或设置hide选项:</p>
+<pre><code class="lang-javascript"><span class="comment">// getter</span>
+<span class="keyword">var</span> hide = $( <span class="string">".selector"</span> ).widget( <span class="string">"option"</span>, <span class="string">"hide"</span> );
+<span class="comment">// setter</span>
+$( <span class="string">".selector"</span> ).widget( <span class="string">"option"</span>, <span class="string">"hide"</span>, { effect: <span class="string">"explode"</span>, duration: <span class="number">1000</span> } );</code></pre>
+<h5>show</h5>
+<p>类型: Boolean or Number or String or Object</p>
+<p>默认值: null<br>是否或者如何显示元素.  </p>
+<p>多类型支持:</p>
+<blockquote>
+<ul>
+<li>Boolean: 当设置为false, 将没有动画效果,元素会立即显示.当设置为true, 元素将用默认的时间与缓动效果来渐显.</li>
+<li>Number: 元素将用指定的时间与默认的缓动效果渐显.</li>
+<li>String: 元素将用指定的效果显示. 这个值可以是jQuery内置的动画方法名,如&quot;slideDown&quot;, 或者是 jQuery UI 特效名, 如 &quot;fold&quot;. 这两种情况下,都将使用默认的时间与缓动效果.</li>
+<li>Object: 如果值是一个对象, 那么 effect, delay, duration, 与 easing 属性都可以提供. 如果 effect 属性包含了 jQuery 方法名, 那么将使用这个方法; 否则将认为这是 jQuery UI 特效. 在使用 jQuery UI 特效时也支持其他设置,你可以将这些设置包含在一个对象中传给传给相应的特效. 如果 duration 或者 easing 被忽略, 将使用默认值. 如过 effect 被忽略, 那么将使用 &quot;fadeIn&quot;. 如果 delay 被忽略, 那么将不会延迟.</li>
+</ul>
+</blockquote>
+<p>代码示例:</p>
+<p>用show选项来初始化widget:
+<code>$( &quot;.selector&quot; ).widget({ show: { effect: &quot;blind&quot;, duration: 800 } });</code></p>
+<p>初始化后用获取或者设置show选项:</p>
+<pre><code class="lang-javascript"><span class="comment">// getter</span>
+<span class="keyword">var</span> show = $( <span class="string">".selector"</span> ).widget( <span class="string">"option"</span>, <span class="string">"show"</span> );
+<span class="comment">// setter</span>
+$( <span class="string">".selector"</span> ).widget( <span class="string">"option"</span>, <span class="string">"show"</span>, { effect: <span class="string">"blind"</span>, duration: <span class="number">800</span> } );</code></pre>
+<h3>方法</h3>
+<p>_create()</p>
+<p>_create() 是widget的构造函数.     没有参数,不过这时this.element 与 this.options 已经被设置了.
+这个方法不接受任何参数.</p>
+<p>_delay( fn [, delay ] )</p>
+<p>返回值: Number</p>
+<p>在指定的延时后执行提供的方法.保持了this上下文的正确性. 本质上就是 setTimeout().
+同clearTimeout()一样返回一个id.</p>
+<p>fn</p>
+<p>类型: Function() or String
+调用的方法.可以是widget的方法名.</p>
+<p>delay
+类型: Number
+在执行方法前需要等待多少毫秒.默认为0.</p>
+<p>_destroy()</p>
+<p>公共方法 destroy() 用来清理所有的公共数据,事件等等. and then delegates out to _destroy() for custom, widget-specific, cleanup.
+这个方法不接受任何参数.</p>
+<p>_focusable( element )</p>
+<p>设置当聚焦 element 的时候是否应用 ui-state-focus 样式.
+这个时间将在销毁的时候自动清理.</p>
+<p>element</p>
+<p>类型: jQuery
+应用focusable行为的元素.
+_getCreateEventData()</p>
+<p>返回值: Object</p>
+<p>所有的widget都会触发 create 事件. 默认情况下,这个事件不提供任何数据,但是这个方法可以返回一个create事件的数据对象.
+此方法不接受任何参数.
+_getCreateOptions()</p>
+<p>返回值: Object</p>
+<p>这个方法允许widget定义一个自定义方法在实例化过程中来定义选项.通过此方法返回的用户选项会同初始化时的选项共同覆盖默认选项.
+此方法不接受任何参数.
+_hide( element, option [, callback ] )</p>
+<p>用内置的动画方法或者自定义效果立即隐藏一个元素.     可以参考 hide 选项的相关值.
+element
+类型: jQuery
+将隐藏的元素.
+option
+类型: Object
+定义如何隐藏元素.
+callback
+类型: Function()
+当元素完全隐藏后调用.
+_hoverable( element )</p>
+<p>在鼠标hover的时候设置元素的class为ui-state-hover.
+在销毁的时候,事件将会被自动清理掉.</p>
+<p>element
+类型: jQuery
+被添加hoverable行为的元素.
+_init()</p>
+<p>widget初始化与创建的概念是有区别的.任何时候,插件调用的时候没有参数或者只传一个hash对象,就表明是初始化widget.包括widget创建.
+注: 初始化只会在widget有此逻辑操作时调用.</p>
+<p>此方法不接受任何参数.</p>
+<p>_off( element, eventName )</p>
+<p>从元素中撤销事件绑定.
+element
+类型: jQuery
+撤销绑定的元素.不同于 _on() 方法,  _off()方法必须要提供元素.
+eventName
+类型: String
+一个或者多个以空格分隔的事件类型.</p>
+<p>_on( [suppressDisabledCheck ] [, element ], handlers )</p>
+<p>给元素绑定事件.事件名中通过使用选择器可以支持事件委托.如,&quot;click .foo&quot;.  _on() 方法比直接的事件绑定提供更多的收益:
+在处理程序中保持this上下文.
+自动处理不可以的widget: 如果widget被置为不可用,或者事件发生在一个有ui-state-disabled样式的元素上, 事件处理函数将不被触发. 可以用suppressDisabledCheck参数来覆盖.
+事件处理自动进行命名空间管理,并在widget销毁后自动清理.</p>
+<p>suppressDisabledCheck (default: false)</p>
+<p>类型: Boolean
+是否绕过不可用状态检查.
+element
+类型: jQuery
+什么元素将被绑定事件.如果不提供此参数将用this.element.
+handlers
+类型: Object
+一个键值对,string的键名表示事件类型,并可用选择器来做委托, 值表示将被该事件调用的处理函数.
+_setOption( key, value )</p>
+<p>从 _setOptions() 方法遍历每个独立的选项调用此方法. widget的状态将根据变化而更新.
+key
+类型: String
+设置选项的名称.
+value
+类型: Object
+设置选项的值.
+_setOptions( options )</p>
+<p>每当调用 option() 方法时就会调用, 不管以任何形式调用 option() 方法.
+如果你想推迟多选项密集计算形变化,你可以重写这个方法.</p>
+<p>options
+类型: Object
+键值对.
+_show( element, option [, callback ] )</p>
+<p>立即显示元素, 使用内置的动画方法或者自定义效果. option的值参见 show 选项.
+element
+类型: jQuery
+要显示的元素.
+option
+类型: Object
+这个设置定义如何显示元素.
+callback
+类型: Function()
+完全显示后调用.
+_super()</p>
+<p>触发父widget具有相同名称的方法, 可以使用任何参数. 本质上就是 .call().
+不接受任何参数.
+_superApply( arguments )</p>
+<p>用array方式的参数触发父widget具有相同名称的方法. 本质上就是 .apply().
+arguments
+类型: Array
+数组参数将传给父方法.
+_trigger( type [, event ] [, data ] )</p>
+<p>触发一个事件和其关联的回调.
+选项的名称等于触发回调的类型.</p>
+<p>事件名称为widget名称 + type.</p>
+<p>注: 当提供数据,你必须提供所有的三个参数.如果没有event参数,则传个null.</p>
+<p>type
+类型: String
+这个type必须和回调匹配. 完整事件类型将自动生成.
+event
+类型: Event
+触发此事件的原始事件; 对提供侦听的上下文比较有用.
+data
+类型: Object
+和事件相关的数据.
+destroy()</p>
+<p>完全移除widget所有功能.这个将返回元素的初始状态.
+不接受任何参数.
+disable()</p>
+<p>使widget失效.
+不接受任何参数.
+enable()</p>
+<p>使widget有效.
+不接受任何参数.
+option( optionName )</p>
+<p>返回值: Object</p>
+<p>获取optionName对应的选项值.
+optionName
+类型: String
+选项名称.
+示例代码:
+调用方法:</p>
+<p>var isDisabled = $( &quot;.selector&quot; ).widget( &quot;option&quot;, &quot;disabled&quot; );
+option()</p>
+<p>返回值: PlainObject</p>
+<p>获取当前widget所使用的选项.
+不接受任何参数.
+示例代码:
+调用方法:</p>
+<p>var options = $( &quot;.selector&quot; ).widget( &quot;option&quot; );
+option( optionName, value )</p>
+<p>设置与特定optionName相关的widget值.
+optionName
+类型: String
+设置的选项名称.
+value
+Type: Object
+设置的选项值.
+示例代码:
+调用方法:</p>
+<p>$( &quot;.selector&quot; ).widget( &quot;option&quot;, &quot;disabled&quot;, true );
+option( options )</p>
+<p>设置一个或多个widget选项.
+options
+类型: Object
+一个键值对集合.
+示例代码:
+调用方法:</p>
+<p>$( &quot;.selector&quot; ).widget( &quot;option&quot;, { disabled: true } );
+widget()</p>
+<p>返回: jQuery</p>
+<p>返回一个jQuery对象包括了初始的元素和其他相关生成的元素.
+这个方法不接受任何参数.
+事件</p>
+<p>create( event, ui )</p>
+<p>类型: widgetcreate</p>
+<p>当widget创建后触发.
+event
+类型: Event
+ui
+类型: Object
+代码示例:
+用create回调初始化对象:</p>
+<p>$( &quot;.selector&quot; ).widget({
+  create: function( event, ui ) {}
+});
+绑定回调侦听widgetcreate事件:</p>
+<p>$( &quot;.selector&quot; ).on( &quot;widgetcreate&quot;, function( event, ui ) {} );</p>
+
+        </div>
+        <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    </body>
+</html>

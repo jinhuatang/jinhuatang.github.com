@@ -33,10 +33,6 @@
         }
     });
 
-    // Load the plugins.
-    grunt.loadNpmTasks('grunt-markdown');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-
     // Default task(s).
     grunt.registerTask('posts', '', function () {
         var posts = [];
@@ -94,6 +90,9 @@
         });
         grunt.file.write('posts.md', postMd);
     });
+        // Load the plugins.
+    grunt.loadNpmTasks('grunt-markdown');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('default', ['posts', 'markdown']);
 };
