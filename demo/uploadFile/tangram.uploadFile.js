@@ -1,8 +1,8 @@
 /*!
- * tangram upload file Plugin 0.1.0
- *
- * Copyright 2013 Jevi Tang
- */
+* tangram upload file Plugin 0.1.0
+*
+* Copyright 2013 Jevi Tang
+*/
 
 (function (T) {
     var iframeHTML = '<iframe frameborder="no" src="javascript:void(0)" scrolling="no" style="width:0px;height:0px;position:absolute;top:0;left:0;opacity:0;filter:alpha(opacity=0);"></iframe>'
@@ -22,18 +22,20 @@
         idoc.close();
         var me = this;
         iframe.onload = function () {
-            var data = (iframe.contentDocument || iframe.contentWindow.document).body.innerHTML;
-            T.dom.remove(iframe);
+            try {
+                var data = (iframe.contentDocument || iframe.contentWindow.document).body.innerHTML;
+                T.dom.remove(iframe);
+                if (type === 'json') {
+                    if (JSON) {
+                        data = JSON.parse(data);
+                    }
+                    else {
+                        eval('data=' + data);
+                    }
+                }
+                callback && callback(data);
+            } catch (e) { }
             me.uploadFile(callback, callback, type);
-            if (type === 'json') {
-                if (JSON) {
-                    data = JSON.parse(data);
-                }
-                else {
-                    eval('data=' + data);
-                }
-            }
-            callback && callback(data);
         };
     }
     T.uploadFile = uploadFile;
