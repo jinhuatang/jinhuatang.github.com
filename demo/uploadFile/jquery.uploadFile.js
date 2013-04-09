@@ -24,7 +24,7 @@
                 var data = (iframe.contentDocument || iframe.contentWindow.document).body.innerHTML;
                 $iframe.remove();
                 if (type === 'json') {
-                    if (JSON) {
+                    if (window.JSON) {
                         data = JSON.parse(data);
                     }
                     else {
@@ -32,7 +32,7 @@
                     }
                 }
                 callback && callback(data);
-            } catch (e) { console && console.dir(e); }
+            } catch (e) { window.console && console.dir(e); }
             me.uploadFile(action, callback, type);
         });
     }
