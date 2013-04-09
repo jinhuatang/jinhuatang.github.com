@@ -15,7 +15,7 @@
 <a id="upload" href="#">选择上传</a>
 <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var uploadIframe = '<iframe frameborder="no" src="javascript:void(0)" scrolling="no" style="width:0px;height:0px;position:absolute;top:0;left:0;opacity:0;filter:alpha(opacity=0);"></iframe>'
+    var uploadIframe = '<iframe frameborder="no" action="upload-ret.html" src="javascript:void(0)" scrolling="no" style="width:0px;height:0px;position:absolute;top:0;left:0;opacity:0;filter:alpha(opacity=0);"></iframe>'
     var uploadForm = '<body style="padding:0;margin:0;"><form style="padding:0;margin:0;"><input type="file" style="cursor:pointer;padding:0;margin:0;font-size:1000px;width:1000px;" onchange="if(this.value){this.parentNode.submit();}"/></form></body>';
     $.fn.uploadFile = function(){
         this.css('position','relative');
@@ -27,15 +27,11 @@
         idoc.open();
         idoc.write(uploadForm);
         idoc.close();
-        $uploadIframe.load(function(){
-            alert(1);
+        $uploadIframe.bind('load',function(){
+            alert(($uploadIframe[0].contentDocument || $uploadIframe[0].contentWindow.document).innerHTML);
         });
     }
     $('#upload').uploadFile();
-    /*_$_upload = function(){
-        $('#upload').find('iframe').remove();
-        $('#upload').uploadFile();
-    }*/
 </script>
 </body>
 </html>
