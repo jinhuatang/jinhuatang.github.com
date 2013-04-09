@@ -24,7 +24,7 @@
         iframe.onload = function () {
             var data = (iframe.contentDocument || iframe.contentWindow.document).body.innerHTML;
             T.dom.remove(iframe);
-            me.uploadFile(callback);
+            me.uploadFile(callback, callback, type);
             if (type === 'json') {
                 if (JSON) {
                     data = JSON.parse(data);

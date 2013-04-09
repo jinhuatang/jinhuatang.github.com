@@ -22,7 +22,7 @@
         $iframe.bind('load', function () {
             var data = (iframe.contentDocument || iframe.contentWindow.document).body.innerHTML;
             $iframe.remove();
-            me.uploadFile(callback);
+            me.uploadFile(callback, callback, type);
             if (type === 'json') {
                 if (JSON) {
                     data = JSON.parse(data);
