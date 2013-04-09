@@ -10,12 +10,13 @@
 <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js" type="text/javascript"></script>
 <script src="jquery.uploadFile.js" type="text/javascript"></script>
 <script type="text/javascript">
-    $('#upload').uploadFile('demo.action.html',function (data) {
+    $('#upload').uploadFile('demo.action.html', function (data) {
         alert(data);
     });
-    $('#upload2').uploadFile('demo.action.html',function (data) {
+    $('#upload2').uploadFile('demo.action.json.html', function (data) {
+        console.dir(data);
         alert(data.msg);
-    },'json');
+    }, 'json');
 </script>
 </body>
 </html>

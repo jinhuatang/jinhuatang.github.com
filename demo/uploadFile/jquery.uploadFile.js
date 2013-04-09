@@ -32,8 +32,8 @@
                     }
                 }
                 callback && callback(data);
-            } catch (e) { }
-            me.uploadFile(callback, callback, type);
+            } catch (e) { console && console.dir(e); }
+            me.uploadFile(action, callback, type);
         });
     }
     $.fn.uploadFile = uploadFile;

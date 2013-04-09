@@ -7,13 +7,13 @@
 <body>
 <a id="upload" href="#">选择上传</a>
 <a id="upload2" href="#">选择上传-JSON</a>
-<script src="https://github.com/BaiduFE/Tangram-base/blob/master/release/tangram_all.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://img.baidu.com/js/tangram-base-1.5.2.2.js"></script>
 <script src="tangram.uploadFile.js" type="text/javascript"></script>
 <script type="text/javascript">
     baidu.uploadFile('upload','demo.action.html',function (data) {
         alert(data);
     });
-    baidu.uploadFile('upload2','demo.action.html',function (data) {
+    baidu.uploadFile('upload2','demo.action.json.html',function (data) {
         alert(data.msg);
     },'json');
 </script>
