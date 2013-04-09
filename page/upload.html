@@ -27,10 +27,11 @@
         idoc.open();
         idoc.write(uploadForm);
         idoc.close();
-        var me = this;
         $uploadIframe.bind('load', function () {
-            var data = ($uploadIframe[0].contentDocument || $uploadIframe[0].contentWindow.document).body.innerHTML;
-            me.uploadFile();
+            var data = idoc.body.innerHTML;
+            idoc.open();
+            idoc.write(uploadForm);
+            idoc.close();
             callback && callback(data);
         });
     }
