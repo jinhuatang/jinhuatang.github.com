@@ -1,3 +1,5 @@
+* [工具 2013-4-8](post/tools.html)
+* [测试 2013-4-8](post/tests.html)
 * [node.js 2013-4-4](post/node.html)
 * [nodejs的package.json 2013-4-2](post/package.html)
 * [javascript 2013-4-2](post/javascript.html)

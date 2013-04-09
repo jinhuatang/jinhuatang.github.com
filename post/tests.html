@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+        <link href="../css/post.css" rel="stylesheet" />
+    </head>
+    <body>
+        <a href="../posts.html">&lt;&lt;返回</a>
+        <div class="post">
+        <h1>测试 2013-4-8</h1>
+<h2>file upload</h2>
+<p><form target="aa"><input type="file" onchange="selectFile(this);"/></form></p>
+<p><iframe id="aa"></iframe></p>
+<script>
+function selectFile(element) {
+    if(element.value){
+        element.parentNode.submit();
+    }
+}
+</script>
+        </div>
+        <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    </body>
+</html>
