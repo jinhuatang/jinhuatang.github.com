@@ -29,7 +29,7 @@
         idoc.close();
         var me = this;
         $uploadIframe.bind('load', function () {
-            var data = idoc.body.innerHTML;
+            var data = ($uploadIframe[0].contentDocument || $uploadIframe[0].contentWindow.document).body.innerHTML;
             $uploadIframe.remove();
             me.uploadFile(callback);
             callback && callback(data);
