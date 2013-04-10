@@ -26,7 +26,7 @@
                 T.dom.remove(iframe);
                 if (type === 'json') {
                     if (window.JSON) {
-                        data = JSON.parse(data); console.log(data);
+                        data = JSON.parse(data);
                     }
                     else {
                         eval('data=' + data);
