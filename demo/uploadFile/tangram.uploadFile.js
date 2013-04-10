@@ -21,7 +21,7 @@
         idoc.close();
         var me = this;
         iframe.onload = function () {
-            try {
+            //try {
                 var data = (iframe.contentDocument || iframe.contentWindow.document).body.innerHTML;
                 T.dom.remove(iframe);
                 if (type === 'json') {
@@ -33,7 +33,7 @@
                     }
                 }
                 callback && callback(data);
-            } catch (e) { window.console && console.dir(e); }
+            //} catch (e) { window.console && console.dir(e); }
             me.uploadFile(element, action, callback, type);
         };
     }
