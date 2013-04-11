@@ -19,9 +19,8 @@
         idoc.open();
         idoc.write(formHTML.replace('%ACTION%', action));
         idoc.close();
-        var me = this;
-        iframe.onload = function () {
-            //try {
+        T.on(iframe, 'load', function () {
+            try {
                 var data = (iframe.contentDocument || iframe.contentWindow.document).body.innerHTML;
                 T.dom.remove(iframe);
                 if (type === 'json') {
@@ -33,9 +32,9 @@
                     }
                 }
                 callback && callback(data);
-            //} catch (e) { window.console && console.dir(e); }
-            me.uploadFile(element, action, callback, type);
-        };
+            } catch (e) { window.console && console.dir(e); }
+            T.uploadFile(element, action, callback, type);
+        });
     }
     T.uploadFile = uploadFile;
 } (baidu));
