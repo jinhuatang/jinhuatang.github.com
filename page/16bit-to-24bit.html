@@ -1,12 +1,50 @@
 <!doctype html>
 <html>
-<head><title>16bit 565 to 24bit</title></head>
+<head>
+<meta charset="utf-8" />
+<title>16bit 565 to 24bit</title>
+<style>body{font-size:12px;}</style>
+</head>
 <body>
+宽<input value="320" onchange="changeWidth(this)" style="width:30px"/> 高<input value="240" onchange="changeHeight(this)" style="width:30px"/>
 <input type="file" onchange="selectFile(this)"/><br/>
 <canvas id="img" style="width:320px;height:240px;border:1px solid #ccc;"></canvas>
 <script>
 var rgbs = [];
+var width = 320;
+var height = 240;
+var img = document.getElementById('img');
+function changeWidth(input){
+    var w = input.value;
+    w = parseInt(w);
+    if(isNaN(w) || w < 1){
+        input.value = 320;
+        width = 320;
+    }
+    else{
+        width = w;
+    }
+    img.style.width = width+'px';
+}
+
+function changeHeight(input){
+    var h = input.value;
+    h = parseInt(h);
+    if(isNaN(h) || h < 1){
+        input.value = 240;
+        height = 240;
+    }
+    else{
+        height = h;
+    }
+    img.style.height = height+'px';
+}
+
 function selectFile(target){
+    var file = target.files[0];
+    if(!file){
+        return;
+    }
     var reader = new FileReader();
     reader.readAsText(target.files[0], "UTF-8");
     reader.onload = loaded;
@@ -17,8 +55,9 @@ function loaded(evt) {
     run();
 }
 function run(){
-    var draw = document.getElementById('img').getContext('2d');
-    var bitmap = draw.createImageData(320,240);
+    var draw = img.getContext('2d');
+    draw.clearRect(0,0,width,height);
+    var bitmap = draw.createImageData(width,height);
     for(var i = 0,index=0; i < rgbs.length; i=i+2,index++){
         var ui16_data = (parseInt(rgbs[i],16)<<8)+parseInt(rgbs[i+1],16);
         var r= ( ui16_data & 0xf800 )>>8;
