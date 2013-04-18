@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head><title>16bit 565 to 24bit</title></head>
+<body>
+<input type="file" onchange="selectFile(this)"/><br/>
+<canvas id="img" style="width:320px;height:240px;border:1px solid #ccc;"></canvas>
+<script>
+var rgbs = [];
+function selectFile(target){
+    var reader = new FileReader();
+    reader.readAsText(target.files[0], "UTF-8");
+    reader.onload = loaded;
+}
+function loaded(evt) {
+    var fileString = evt.target.result;
+    rgbs = fileString.replace(/\r|\n/,'').split(',');
+    run();
+}
+function run(){
+    var draw = document.getElementById('img').getContext('2d');
+    var bitmap = draw.createImageData(320,240);
+    for(var i = 0,index=0; i < rgbs.length; i=i+2,index++){
+        var ui16_data = (parseInt(rgbs[i],16)<<8)+parseInt(rgbs[i+1],16);
+        var r= ( ui16_data & 0xf800 )>>8;
+        var g= ( ui16_data & 0x7e0 )>>3;
+        var b= ( ui16_data & 0x1f )<<3;
+        bitmap.data[index*4] = r;
+        bitmap.data[index*4+1] = g;
+        bitmap.data[index*4+2] = b;
+        bitmap.data[index*4+3] = 0xFF;
+    }
+    draw.putImageData(bitmap,0,0);
+}
+</script>
+</body>
+</html>
